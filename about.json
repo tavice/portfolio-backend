@@ -2,5 +2,13 @@
   "name": "Thomas Avice",
   "email": "thomasavice.ta@gmail.com",
   "headshot": "http://www.imgur.com/pictureofproject.png",
-  "bio": "I am a highly skilled and motivated software engineer with a deep passion for cleantech, contech, and proptech. With a proven track record of delivering high-quality software solutions: I am fully dedicated to drive innovation in these rapidly-evolving industries. I am well-versed in a range of programming languages and frameworks, including Python, JavaScript, and React; have a strong understanding of software development methodologies such as Agile and Scrum and I am always committed to staying up-to-date with the latest technologies and industry trends, constantly seeking new ways to improve my skills"
+  "tagline": " Highly Skilled Software Engineer Passionate About Cleantech, Contech, and Proptech ",
+  "intro": " Hey there, I am Thomas Avice (tavice!), a software engineer with a burning passion for revolutionizing the cleantech, contech, and proptech industries. I have a proven track record of crafting cutting-edge software solutions and am dedicated to driving innovation in these rapidly-evolving fields.",
+  "techstack": " Tech Stack: Python, JavaScript, React, Mango, Django and more.",
+  "expertise": "‍ Expertise: Proficient in Agile and Scrum methodologies, I thrive in collaborative environments, working seamlessly with cross-functional teams to deliver high-quality software solutions.",
+  "learner": " Constant Learner: In this ever-evolving tech world, I'm always on the hunt for the latest technologies and industry trends. My GitHub repositories are a testament to my commitment to continuous learning and improvement.",
+  "github": " GitHub Enthusiast: GitHub is my coding playground, where I showcase my projects, collaborate with fellow developers, and contribute to open-source projects. Follow me for exciting code journeys!",
+  "connect": " Let's Connect: I'm open to collaboration, discussions, and connecting with like-minded developers. Feel free to reach out for a chat, project collaboration, or any exciting GitHub adventure!",
+  "contact": " Contact Me: email |  portfolio |  Linkedin",
+  "calltoaction": "Let's code together and make an impact! "
 }
