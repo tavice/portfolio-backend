@@ -1,14 +1,18 @@
 {
   "name": "Thomas Avice",
   "email": "thomasavice.ta@gmail.com",
-  "headshot": "http://www.imgur.com/pictureofproject.png",
+  "headshot": "https://i.ibb.co/yq4z2zj/120138049.png",
   "tagline": " Highly Skilled Software Engineer Passionate About Cleantech, Contech, and Proptech ",
   "intro": " Hey there, I am Thomas Avice (tavice!), a software engineer with a burning passion for revolutionizing the cleantech, contech, and proptech industries. I have a proven track record of crafting cutting-edge software solutions and am dedicated to driving innovation in these rapidly-evolving fields.",
-  "techstack": " Tech Stack: Python, JavaScript, React, Mango, Django and more.",
-  "expertise": "‍ Expertise: Proficient in Agile and Scrum methodologies, I thrive in collaborative environments, working seamlessly with cross-functional teams to deliver high-quality software solutions.",
-  "learner": " Constant Learner: In this ever-evolving tech world, I'm always on the hunt for the latest technologies and industry trends. My GitHub repositories are a testament to my commitment to continuous learning and improvement.",
+  "techstack": ["JavaScript", "React", "Node.js", "Express", "MongoDB", "PostgreSQL", "Python", "Django", "Flask", "AWS", "Docker", "Kubernetes", "Jenkins", "Git", "Scrum", "And More"],
+  "expertise": "‍Proficient in Agile and Scrum methodologies, I thrive in collaborative environments, working seamlessly with cross-functional teams to deliver high-quality software solutions.",
+  "learner": "In this ever-evolving tech world, I'm always on the hunt for the latest technologies and industry trends. My GitHub repositories are a testament to my commitment to continuous learning and improvement.",
   "github": " GitHub Enthusiast: GitHub is my coding playground, where I showcase my projects, collaborate with fellow developers, and contribute to open-source projects. Follow me for exciting code journeys!",
-  "connect": " Let's Connect: I'm open to collaboration, discussions, and connecting with like-minded developers. Feel free to reach out for a chat, project collaboration, or any exciting GitHub adventure!",
-  "contact": " Contact Me: email |  portfolio |  Linkedin",
+  "connect": "I'm open to collaboration, discussions, and connecting with like-minded developers. Feel free to reach out for a chat, project collaboration, or any exciting GitHub adventure!",
+  "contact": {
+    "linkedin": "https://www.linkedin.com/in/thomasavice",
+    "email": "thomasavice.ta@gmail.com",
+    "github": "https://github.com/tavice"
+  },
   "calltoaction": "Let's code together and make an impact! "
 }
