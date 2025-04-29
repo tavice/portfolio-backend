@@ -6,5 +6,5 @@ const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Allowed origins: ${process.env.ALLOWED_ORIGINS}`);
+  console.log(`Allowed origins: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
 }); 
