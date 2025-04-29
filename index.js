@@ -19,9 +19,12 @@ const {
   CLIENT_ID,
   CLIENT_SECRET,
   REDIRECT_URL,
-  PORT = 3000,
+  PORT = 10000,
   FRONTEND_URL = 'http://localhost:3000'
 } = process.env;
+
+// Parse FRONTEND_URL to handle multiple origins
+const allowedOrigins = FRONTEND_URL.split(',').map(url => url.trim());
 
 // Get current file path and directory
 const __filename = fileURLToPath(import.meta.url);
@@ -35,12 +38,26 @@ const about = JSON.parse(readFileSync(join(__dirname, './about.json'), 'utf8'));
 const app = express();
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+
+// CORS configuration
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'POST'],
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -48,6 +65,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "healthy" });
 });
 
 // Routes
@@ -113,6 +135,7 @@ app.post("/api/contact", contactValidation, async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
 });
