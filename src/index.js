@@ -1,17 +1,16 @@
 // Import Dependencies
-import express from 'express';
-import cors from 'cors';
-import { config } from 'dotenv';
-import nodemailer from 'nodemailer';
-import { google } from 'googleapis';
-import helmet from 'helmet';
-import { body, validationResult } from 'express-validator';
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
+const helmet = require('helmet');
+const { body, validationResult } = require('express-validator');
+const fs = require('fs');
+const path = require('path');
 
 // Load environment variables
-config();
+dotenv.config();
 
 const {
   MY_PASSWORD,
@@ -26,13 +25,9 @@ const {
 // Parse FRONTEND_URL to handle multiple origins
 const allowedOrigins = FRONTEND_URL.split(',').map(url => url.trim());
 
-// Get current file path and directory
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 // Import JSON files
-const projects = JSON.parse(readFileSync(join(__dirname, './projects.json'), 'utf8'));
-const about = JSON.parse(readFileSync(join(__dirname, './about.json'), 'utf8'));
+const projects = JSON.parse(fs.readFileSync(path.join(__dirname, './projects.json'), 'utf8'));
+const about = JSON.parse(fs.readFileSync(path.join(__dirname, './about.json'), 'utf8'));
 
 // Create our app object
 const app = express();
