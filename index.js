@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
+const { sendEmail } = require('./src/services/emailService');
 
 // Load environment variables
 dotenv.config();
@@ -37,25 +38,23 @@ app.get('/about', (req, res) => {
   res.json(about);
 });
 
-app.post('/api/contact', async (req, res) => {
-  const { name, email, phone, message } = req.body;
-  
-  // Basic validation
-  if (!name || !email || !message) {
-    return res.status(400).json({ error: 'Name, email, and message are required' });
-  }
-  
+// Contact form endpoint
+app.post('/contact', async (req, res) => {
   try {
-    // For now, just log the contact form data
-    console.log('Contact form submission:', { name, email, phone, message });
+    const { name, email, subject, message } = req.body;
     
-    // In a real implementation, you would send an email here
-    // using nodemailer or another email service
+    // Validate input
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
     
-    res.status(200).json({ message: 'Email sent successfully' });
+    // Send email
+    await sendEmail(name, email, subject, message);
+    
+    res.json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
-    console.error('Error processing contact form:', error);
-    res.status(500).json({ error: 'Failed to process contact form' });
+    console.error('Error in contact endpoint:', error);
+    res.status(500).json({ error: 'Failed to send email' });
   }
 });
 
