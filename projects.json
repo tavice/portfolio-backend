@@ -1,5 +1,11 @@
 [
   {
+    "name": "Construction Analytics",
+    "live": "https://job-status-analyzer-frontend.vercel.app/demo",
+    "git": "http://www.github.com/tavice",
+    "image": "https://imgur.com/VOwrjwl.png"
+  },
+  {
     "name": "Maison Avice",
     "live": "https://www.maisonavice.com/",
     "git": "https://github.com/tavice/maison-avice-frontend",
@@ -29,5 +35,4 @@
     "git": "http://www.github.com/tavice/my-equipment",
     "image": "https://imgur.com/d6l1Yaq.png"
   }
-  
 ]
