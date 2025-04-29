@@ -124,16 +124,10 @@ app.post("/api/contact", contactValidation, async (req, res) => {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
-    console.error('Email error:', error);
-    res.status(500).json({ error: "Failed to send email" });
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: 'Failed to send email' });
   }
 });
 
 // Export the app
-module.exports = app;
-
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
-}); 
+module.exports = app; 
