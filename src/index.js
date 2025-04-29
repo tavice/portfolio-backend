@@ -138,4 +138,4 @@ app.post("/api/contact", contactValidation, async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
   console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
-});
+}); 
