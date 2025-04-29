@@ -7,9 +7,8 @@
         "image": "https://imgur.com/VOwrjwl.png",
         "tech": [
             "React",
-            "Node.js",
-            "Express",
-            "MongoDB",
+            "FastAPI",
+            "PostgreSQL",
             "Chart.js"
         ]
     },
@@ -34,10 +33,8 @@
         "image": "https://imgur.com/fwGefsl.png",
         "tech": [
             "React",
-            "Redux",
-            "Node.js",
-            "Express",
-            "MongoDB"
+            "Django",
+            "PostgreSQL"
         ]
     },
     {
@@ -63,8 +60,7 @@
         "tech": [
             "HTML",
             "CSS",
-            "JavaScript",
-            "Bootstrap"
+            "JavaScript"
         ]
     },
     {
@@ -77,8 +73,7 @@
             "React",
             "Node.js",
             "Express",
-            "MongoDB",
-            "Material UI"
+            "MongoDB"
         ]
     }
 ]
