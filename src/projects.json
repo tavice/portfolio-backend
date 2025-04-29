@@ -1,38 +1,84 @@
 [
     {
         "name": "Construction Analytics",
-        "live": "https://job-status-analyzer-frontend.vercel.app/demo",
-        "git": "http://www.github.com/tavice",
-        "image": "https://imgur.com/VOwrjwl.png"
+        "description": "A web application for analyzing construction job status data with interactive visualizations.",
+        "website": "https://job-status-analyzer-frontend.vercel.app/demo",
+        "github": "http://www.github.com/tavice",
+        "image": "https://imgur.com/VOwrjwl.png",
+        "tech": [
+            "React",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "Chart.js"
+        ]
     },
     {
         "name": "Maison Avice",
-        "live": "https://www.maisonavice.com/",
-        "git": "https://github.com/tavice/maison-avice-frontend",
-        "image": "https://imgur.com/C6u0vJk.png"
+        "description": "A luxury real estate website showcasing high-end properties with elegant design.",
+        "website": "https://www.maisonavice.com/",
+        "github": "https://github.com/tavice/maison-avice-frontend",
+        "image": "https://imgur.com/C6u0vJk.png",
+        "tech": [
+            "React",
+            "Styled Components",
+            "Framer Motion",
+            "Node.js"
+        ]
     },
     {
         "name": "MyJobSearch.com",
-        "live": "https://astonishing-cannoli-1faecf.netlify.app/Home",
-        "git": "https://github.com/tavice/jobposting-frontend",
-        "image": "https://imgur.com/fwGefsl.png"
+        "description": "A job search platform connecting job seekers with employers.",
+        "website": "https://astonishing-cannoli-1faecf.netlify.app/Home",
+        "github": "https://github.com/tavice/jobposting-frontend",
+        "image": "https://imgur.com/fwGefsl.png",
+        "tech": [
+            "React",
+            "Redux",
+            "Node.js",
+            "Express",
+            "MongoDB"
+        ]
     },
     {
         "name": "SportsCast",
-        "live": "https://scorecast.netlify.app/",
-        "git": "https://github.com/jargray85/ScoreCast",
-        "image": "https://imgur.com/RvFpXkU.png"
+        "description": "A sports news and score tracking application for sports enthusiasts.",
+        "website": "https://scorecast.netlify.app/",
+        "github": "https://github.com/jargray85/ScoreCast",
+        "image": "https://imgur.com/RvFpXkU.png",
+        "tech": [
+            "React",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "Sports API"
+        ]
     },
     {
         "name": "Drive To Survive",
-        "live": "https://tavice.github.io/drive-to-survive/",
-        "git": "https://github.com/tavice/tavice.github.io/tree/main/drive-to-survive",
-        "image": "https://imgur.com/eIRYOP7.png"
+        "description": "A Formula 1 fan site with race information, driver profiles, and team statistics.",
+        "website": "https://tavice.github.io/drive-to-survive/",
+        "github": "https://github.com/tavice/tavice.github.io/tree/main/drive-to-survive",
+        "image": "https://imgur.com/eIRYOP7.png",
+        "tech": [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Bootstrap"
+        ]
     },
     {
         "name": "My Equipment",
-        "live": "https://my-equipment.herokuapp.com/",
-        "git": "http://www.github.com/tavice/my-equipment",
-        "image": "https://imgur.com/d6l1Yaq.png"
+        "description": "An equipment management system for tracking and managing construction equipment.",
+        "website": "https://my-equipment.herokuapp.com/",
+        "github": "http://www.github.com/tavice/my-equipment",
+        "image": "https://imgur.com/d6l1Yaq.png",
+        "tech": [
+            "React",
+            "Node.js",
+            "Express",
+            "MongoDB",
+            "Material UI"
+        ]
     }
 ]
