@@ -1,123 +1,106 @@
 // Import Dependencies
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const nodemailer = require("nodemailer");
-const { google } = require('googleapis');
-const { OAuth2 } = google.auth;
+import express from 'express';
+import cors from 'cors';
+import { config } from 'dotenv';
+import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
+import helmet from 'helmet';
+import { body, validationResult } from 'express-validator';
 
-//require dotenv
-require("dotenv").config();
+// Load environment variables
+config();
 
-const MY_PASSWORD = process.env.MY_PASSWORD;
-const MY_EMAIL = process.env.MY_EMAIL;
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URL = process.env.REDIRECT_URL;
+const {
+  MY_PASSWORD,
+  MY_EMAIL,
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URL
+} = process.env;
 
 // Import JSON files
-const projects = require("./projects.json");
-const about = require("./about.json");
+import projects from './projects.json' assert { type: 'json' };
+import about from './about.json' assert { type: 'json' };
 
 // Create our app object
 const app = express();
 
-// set up middleware
+// Security middleware
+app.use(helmet());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-//home route for testing our app
-app.get("/", (req, res) => {
-  res.send("Hello World");
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// route for retrieving projects
+// Routes
+app.get("/", (req, res) => {
+  res.json({ message: "Portfolio API is running" });
+});
+
 app.get("/projects", (req, res) => {
-  // send projects via JSON
   res.json(projects);
 });
 
-// route for retrieving about info
 app.get("/about", (req, res) => {
-  // send projects via JSON
   res.json(about);
 });
 
-//Google OAuth to be continued
-// const oauth2Client = new OAuth2(
-//   CLIENT_ID,
-//   CLIENT_SECRET,
-//   REDIRECT_URL
-// );
+// Contact form validation
+const contactValidation = [
+  body('name').trim().notEmpty().withMessage('Name is required'),
+  body('email').isEmail().withMessage('Valid email is required'),
+  body('message').trim().notEmpty().withMessage('Message is required'),
+  body('phone').optional().trim()
+];
 
-// oauth2Client.setCredentials({
-//   refresh_token: 'REFRESH_TOKEN'
-// });
+app.post("/api/contact", contactValidation, async (req, res) => {
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
-// const accessToken = oauth2Client.getAccessToken();
-
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     type: 'OAuth2',
-//     user: MY_EMAIL,
-//     accessToken,
-//     clientId: CLIENT_ID,
-//     clientSecret: CLIENT_SECRET,
-//     refreshToken: 'REFRESH_TOKEN'
-//   }
-// });
-
-
-
-
-
-// route for sending emails
-//
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.post("/api/contact", (req, res) => {
   const { name, email, phone, message } = req.body;
 
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: MY_EMAIL,
-      pass: MY_PASSWORD,
-    },
-  });
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: MY_EMAIL,
+        pass: MY_PASSWORD,
+      },
+    });
 
-  const mailOptions = { 
-    from: email,
-    to: "thomasavice.ta@gmail.com",
-    subject: "New Contact Form Submission",
-    html: `
-      <h1>New Contact Form Submission</h1>
-      <ul>
-        <li>Name: ${name}</li>
-        <li>Email: ${email}</li>
-        <li>Phone: ${phone}</li>
-      </ul>
-      <p>${message}</p>
-    `,
-  };
+    const mailOptions = {
+      from: email,
+      to: MY_EMAIL,
+      subject: "New Contact Form Submission",
+      html: `
+        <h1>New Contact Form Submission</h1>
+        <ul>
+          <li>Name: ${name}</li>
+          <li>Email: ${email}</li>
+          <li>Phone: ${phone || 'Not provided'}</li>
+          <li>Message: ${message}</li>
+        </ul>
+      `,
+    };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send("Oops! Something went wrong.");
-    } else {
-      console.log("Email sent: " + info.response);
-      res.status(200).send("Thank you for contacting us!");
-    }
-  });
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error('Email error:', error);
+    res.status(500).json({ error: "Failed to send email" });
+  }
 });
 
-
-
-
-//declare a variable for our port number
-const PORT = process.env.PORT || 4000;
-
-// turn on the server listener
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
