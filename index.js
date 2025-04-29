@@ -6,6 +6,9 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import helmet from 'helmet';
 import { body, validationResult } from 'express-validator';
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 // Load environment variables
 config();
@@ -15,19 +18,29 @@ const {
   MY_EMAIL,
   CLIENT_ID,
   CLIENT_SECRET,
-  REDIRECT_URL
+  REDIRECT_URL,
+  PORT = 3000,
+  FRONTEND_URL = 'http://localhost:3000'
 } = process.env;
 
+// Get current file path and directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Import JSON files
-import projects from './projects.json' assert { type: 'json' };
-import about from './about.json' assert { type: 'json' };
+const projects = JSON.parse(readFileSync(join(__dirname, './projects.json'), 'utf8'));
+const about = JSON.parse(readFileSync(join(__dirname, './about.json'), 'utf8'));
 
 // Create our app object
 const app = express();
 
 // Security middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: FRONTEND_URL,
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -100,7 +113,6 @@ app.post("/api/contact", contactValidation, async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
