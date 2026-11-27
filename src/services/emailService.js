@@ -9,19 +9,33 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Escape user-supplied text before embedding it in the HTML email body
+const escapeHtml = (value) =>
+  String(value).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+
+// Strip CR/LF so user input can't inject extra email headers
+const singleLine = (value) => String(value).replace(/[\r\n]+/g, ' ').trim();
+
 const sendEmail = async (name, email, subject, message) => {
   try {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: 'thomasavice.ta@gmail.com', // Your email address
-      subject: `Portfolio Contact: ${subject}`,
+      replyTo: singleLine(email),
+      subject: `Portfolio Contact: ${singleLine(subject)}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${escapeHtml(message)}</p>
       `
     };
 
@@ -36,4 +50,4 @@ const sendEmail = async (name, email, subject, message) => {
 
 module.exports = {
   sendEmail
-}; 
+};
