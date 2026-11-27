@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 const { sendEmail } = require('./src/services/emailService');
 
 // Load environment variables
@@ -33,7 +34,9 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept'],
   exposedHeaders: ['Content-Range', 'X-Content-Range']
 }));
-app.use(express.json());
+// Render (and most hosts) sit behind one proxy; needed so rate limiting sees the real client IP
+app.set('trust proxy', 1);
+app.use(express.json({ limit: '10kb' }));
 
 // Load data
 const projects = JSON.parse(fs.readFileSync(path.join(__dirname, './src/projects.json'), 'utf8'));
@@ -53,15 +56,40 @@ app.get('/about', (req, res) => {
 });
 
 // Contact form endpoint
-app.post('/contact', async (req, res) => {
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  limit: 5, // 5 messages per IP per hour
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many messages. Please try again later.' }
+});
+
+const LIMITS = { name: 100, email: 254, subject: 200, message: 5000 };
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+app.post('/contact', contactLimiter, async (req, res) => {
   try {
-    const { name, email, subject, message } = req.body;
+    const { name, email, subject, message, website } = req.body || {};
+
+    // Honeypot: real visitors never see this hidden field, bots fill it in.
+    // Pretend it worked so the bot learns nothing, but send nothing.
+    if (website) {
+      return res.json({ success: true, message: 'Email sent successfully' });
+    }
     
     // Validate input
-    if (!name || !email || !subject || !message) {
+    const fields = { name, email, subject, message };
+    if (Object.values(fields).some((v) => typeof v !== 'string' || !v.trim())) {
       return res.status(400).json({ error: 'All fields are required' });
     }
     
+    if (Object.entries(fields).some(([key, v]) => v.length > LIMITS[key])) {
+      return res.status(400).json({ error: 'One or more fields are too long' });
+    }
+    if (!EMAIL_PATTERN.test(email.trim())) {
+      return res.status(400).json({ error: 'Please enter a valid email address' });
+    }
+
     // Send email
     await sendEmail(name, email, subject, message);
     
